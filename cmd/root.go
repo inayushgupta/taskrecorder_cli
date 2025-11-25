@@ -4,7 +4,6 @@ Copyright © 2025 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -20,7 +19,6 @@ var rootCmd = &cobra.Command{
 
 func RunRoot(cmd *cobra.Command, args []string) {
 
-	fmt.Println(cmd.Flags().GetString("list_name"))
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

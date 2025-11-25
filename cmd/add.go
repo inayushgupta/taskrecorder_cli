@@ -5,6 +5,7 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/spf13/cobra"
 )
@@ -23,12 +24,44 @@ to quickly create a Cobra application.`,
 }
 
 func runAdd(cmd *cobra.Command, args []string) {
-	fmt.Println(cmd.Flags().GetInt("priority"))
+	addTask, err := cmd.Flags().GetBool("create-task")
+
+	if err != nil {
+		fmt.Println("error with addTask", err)
+	}
+
+	addList, err := cmd.Flags().GetBool("create-list")
+
+	if err != nil {
+		fmt.Println("error with addList", err)
+	}
+
+	switch {
+	case addTask && addList:
+		{
+			fmt.Println("you cannot add list and task at the same time")
+			os.Exit(1)
+		}
+	case addTask:
+		{
+			fmt.Println("Adding Task...")
+			fmt.Println(args)
+		}
+	case addList:
+		{
+			fmt.Println("Adding List...")
+			fmt.Println(args)
+		}
+	}
+
 }
 
 func init() {
 	addCmd.Flags().IntP("priority", "p", 2, "Priority of the task")
 	rootCmd.AddCommand(addCmd)
+	addCmd.Flags().BoolP("create-list", "y", false, "Create a list")
+	addCmd.Flags().BoolP("create-task", "t", false, "Create a task")
+
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
